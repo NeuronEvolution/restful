@@ -3,7 +3,7 @@ package restful
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/NeuronEvolution/errors"
+	"github.com/NeuronFramework/errors"
 	"go.uber.org/zap"
 	"net/http"
 )
