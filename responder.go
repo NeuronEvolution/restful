@@ -4,6 +4,7 @@ import (
 	"github.com/NeuronFramework/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
+	"go.uber.org/zap"
 	"net/http"
 )
 
@@ -22,8 +23,10 @@ func (e *errorResponder) WriteResponse(rw http.ResponseWriter, producer runtime.
 func Responder(err error) middleware.Responder {
 	switch err.(type) {
 	case *errors.Error:
+		zap.L().Error("InternalServerError", zap.Error(err))
 		return &errorResponder{status: err.(*errors.Error).Status, err: err}
 	default:
+		zap.L().Error("InternalServerError", zap.String("code", errors.ERROR_UNKNOWN), zap.Error(err))
 		return &errorResponder{
 			status: http.StatusInternalServerError,
 			err:    &errors.Error{Status: http.StatusInternalServerError, Code: errors.ERROR_UNKNOWN, Message: err.Error()},
