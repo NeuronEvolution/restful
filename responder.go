@@ -23,7 +23,7 @@ func (e *errorResponder) WriteResponse(rw http.ResponseWriter, producer runtime.
 func Responder(err error) middleware.Responder {
 	switch err.(type) {
 	case *errors.Error:
-		zap.L().Error("InternalServerError", zap.Error(err))
+		zap.L().Error("AppError", zap.Error(err))
 		return &errorResponder{status: err.(*errors.Error).Status, err: err}
 	default:
 		zap.L().Error("InternalServerError", zap.String("code", errors.ERROR_UNKNOWN), zap.Error(err))

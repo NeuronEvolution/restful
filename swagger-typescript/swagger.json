@@ -1,0 +1,746 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "",
+    "title": "Stock Assistant",
+    "contact": {
+      "name": "mars"
+    },
+    "version": "v1"
+  },
+  "host": "https://localhost",
+  "basePath": "/api/stock-assistant/v1",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "parameters": {
+  },
+  "responses": {
+    "ErrorResponse": {
+      "description": "Error response",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "default": "Http status",
+            "type": "string",
+            "format": "int32"
+          },
+          "code": {
+            "description": "Error code",
+            "type": "string"
+          },
+          "message": {
+            "description": "Error message",
+            "type": "string"
+          },
+          "errors": {
+            "description": "Errors",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": {
+                  "description": "field name",
+                  "type": "string"
+                },
+                "code": {
+                  "description": "error code",
+                  "type": "string"
+                },
+                "message": {
+                  "description": "error message",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/{userId}/stockIndices": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "description": "User id",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get user indices",
+        "operationId": "UserStockIndexList",
+        "security": [
+          {
+          }
+        ],
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UserStockIndex"
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
+      "post": {
+        "summary": "add",
+        "operationId": "UserStockIndexAdd",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Index",
+            "description": "Index",
+            "schema": {
+              "$ref": "#/definitions/UserStockIndex"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/UserStockIndex"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/{userId}/stockIndices/rename": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "description": "User id",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "post": {
+        "summary": "",
+        "operationId": "UserStockIndexRename",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "nameOld",
+            "description": "old name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "nameNew",
+            "description": "new name",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/UserStockIndex"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/{userId}/stockIndices/{indexName}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "description": "User id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "indexName",
+          "description": "index id",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get user index",
+        "operationId": "UserStockIndexGet",
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/UserStockIndex"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
+      "post": {
+        "summary": "update",
+        "operationId": "UserStockIndexUpdate",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Index",
+            "description": "Index",
+            "schema": {
+              "$ref": "#/definitions/UserStockIndex"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/UserStockIndex"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
+      "delete": {
+        "summary": "",
+        "operationId": "UserStockIndexDelete",
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/{userId}/stockEvaluates": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "description": "User id",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "",
+        "operationId": "UserStockEvaluateList",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "pageToken",
+            "description": "page token",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "description": "page size",
+            "type": "string",
+            "format": "int32",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "sort",
+            "description": "sort",
+            "type": "string",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "notEvaluated",
+            "description": "not evaluated",
+            "type": "string",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "headers": {
+              "Neuron-X-NextPageToken":{
+                "type": "string"
+              }
+            },
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UserStockEvaluate"
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/{userId}/stockEvaluates/{stockId}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "description": "User id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "stockId",
+          "description": "stock id",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "",
+        "operationId": "UserStockEvaluateGet",
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/UserStockEvaluate"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/{userId}/stockEvaluates/{stockId}/indexEvaluates": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "description": "User id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "stockId",
+          "description": "stock id",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "",
+        "operationId": "UserIndexEvaluateList",
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UserIndexEvaluate"
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
+      "post": {
+        "summary": "",
+        "operationId": "UserIndexEvaluateSave",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "indexEvaluate",
+            "schema": {
+              "$ref": "#/definitions/UserIndexEvaluate"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/UserIndexEvaluate"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/{userId}/stockEvaluates/{stockId}/indexEvaluates/{indexName}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "description": "User id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "stockId",
+          "description": "stock id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "indexName",
+          "description": "index name",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "",
+        "operationId": "UserIndexEvaluateGet",
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/UserIndexEvaluate"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/{userId}/settings": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "description": "User id",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "list",
+        "operationId": "UserSettingList",
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UserSetting"
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
+      "post": {
+        "summary": "save",
+        "operationId": "UserSettingSave",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Setting",
+            "description": "setting",
+            "schema": {
+              "$ref": "#/definitions/UserSetting"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/UserSetting"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/{userId}/settings/{configKey}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "userId",
+          "description": "User id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "configKey",
+          "description": "config key",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "",
+        "operationId": "UserSettingGet",
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/UserSetting"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      },
+      "delete": {
+        "summary": "",
+        "operationId": "UserSettingDelete",
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    },
+    "/stockIndexAdvices": {
+      "get": {
+        "summary": "list",
+        "operationId": "StockIndexAdviceList",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "pageToken",
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "pageSize",
+            "type": "string",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "headers": {
+              "Neuron-X-NextPageToken":{
+                "type": "string"
+              }
+            },
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/StockIndexAdvice"
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/responses/ErrorResponse"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "UserSetting": {
+      "id": "Setting",
+      "description": "User stock setting",
+      "type": "object",
+      "properties": {
+        "key": {
+          "description": "Key",
+          "type": "string"
+        },
+        "value": {
+          "description": "Value",
+          "type": "string"
+        }
+      }
+    },
+    "UserStockIndex": {
+      "id": "Index",
+      "description": "User stock index",
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "name",
+          "type": "string"
+        },
+        "desc": {
+          "description": "desc",
+          "type": "string"
+        },
+        "evalWeight": {
+          "description": "Eval weight",
+          "type": "string",
+          "format": "int32"
+        },
+        "aiWeight": {
+          "description": "ai weight",
+          "type": "string",
+          "format": "int32"
+        },
+        "niWeight": {
+          "description": "ni weight",
+          "type": "string",
+          "format": "int32"
+        }
+      }
+    },
+    "UserStockEvaluate": {
+      "id": "StockEvaluate",
+      "description": "stock evaluate",
+      "type": "object",
+      "properties": {
+        "stockId": {
+          "description": "stock id",
+          "type": "string"
+        },
+        "totalScore": {
+          "description": "score",
+          "type": "string",
+          "format": "double"
+        },
+        "evalRemark": {
+          "description": "remark",
+          "type": "string"
+        },
+        "exchangeId": {
+          "description": "Exchange id",
+          "type": "string"
+        },
+        "exchangeName": {
+          "description": "Exchange name",
+          "type": "string"
+        },
+        "stockCode": {
+          "description": "Stock code",
+          "type": "string"
+        },
+        "stockNameCN": {
+          "description": "Stock name cn",
+          "type": "string"
+        },
+        "launchDate": {
+          "description": "Launch date",
+          "type": "string",
+          "format": "date-time"
+        },
+        "websiteUrl": {
+          "description": "Website url",
+          "type": "string"
+        },
+        "industryName": {
+          "description": "Industry name",
+          "type": "string"
+        },
+        "cityNameCN": {
+          "description": "City name cn",
+          "type": "string"
+        },
+        "provinceNameCN": {
+          "description": "Province name cn",
+          "type": "string"
+        }
+      }
+    },
+    "UserIndexEvaluate": {
+      "id": "IndexEvaluate",
+      "description": "index evaluate",
+      "type": "object",
+      "properties": {
+        "indexName": {
+          "description": "index name",
+          "type": "string"
+        },
+        "evalStars": {
+          "description": "eval stars",
+          "type": "string",
+          "format": "int32"
+        },
+        "evalRemark": {
+          "description": "eval remark",
+          "type": "string"
+        },
+        "updateTime": {
+          "description": "update time",
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "StockIndexAdvice": {
+      "id": "StockIndex",
+      "description": "stock index",
+      "type": "object",
+      "properties": {
+        "indexName": {
+          "description": "name",
+          "type": "string"
+        },
+        "usedCount": {
+          "description": "used count",
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    }
+  }
+}
