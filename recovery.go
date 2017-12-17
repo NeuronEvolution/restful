@@ -1,7 +1,6 @@
 package restful
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/NeuronFramework/errors"
 	"go.uber.org/zap"
@@ -23,14 +22,7 @@ func Recovery(h http.Handler) http.Handler {
 					Message: fmt.Sprint(err),
 				}
 
-				data, jsonError := json.Marshal(errorResponse)
-				if jsonError != nil {
-					zap.L().Error("Recovery", zap.Error(jsonError))
-					w.Write([]byte(errorResponse.Error()))
-					return
-				}
-
-				w.Write(data)
+				w.Write([]byte(errorResponse.Error()))
 			}
 		}()
 		h.ServeHTTP(w, r)
