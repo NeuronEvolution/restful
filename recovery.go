@@ -18,7 +18,7 @@ func Recovery(h http.Handler) http.Handler {
 
 				errorResponse := &errors.Error{
 					Status:  http.StatusInternalServerError,
-					Code:    errors.ERROR_INTERNAL_EXCEPTION,
+					Code:    errors.ErrUnknown,
 					Message: fmt.Sprint(err),
 				}
 
