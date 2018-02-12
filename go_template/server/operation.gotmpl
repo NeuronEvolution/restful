@@ -60,6 +60,8 @@ type {{ pascalize .Name }} struct {
 }
 
 func ({{ .ReceiverName }} *{{ pascalize .Name }}) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
+  zap.L().Named("api").Info("{{ pascalize .Name }}")
+
   route, rCtx, _ := {{ .ReceiverName }}.Context.RouteInfo(r)
   if rCtx != nil {
     r = rCtx
@@ -68,6 +70,7 @@ func ({{ .ReceiverName }} *{{ pascalize .Name }}) ServeHTTP(rw http.ResponseWrit
 
   {{ if .Authorized }}uprinc, aCtx, err := {{ .ReceiverName }}.Context.Authorize(r, route)
   if err != nil {
+    zap.L().Named("api").Info("{{ pascalize .Name }}", zap.Error(err))
     {{ .ReceiverName }}.Context.Respond(rw, r, route.Produces, route, err)
     return
   }
@@ -81,6 +84,7 @@ func ({{ .ReceiverName }} *{{ pascalize .Name }}) ServeHTTP(rw http.ResponseWrit
 
   {{ end }}
   if err := {{ .ReceiverName }}.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
+    zap.L().Named("api").Info("{{ pascalize .Name }}", zap.Error(err))
     {{ .ReceiverName }}.Context.Respond(rw, r, route.Produces, route, err)
     return
   }
