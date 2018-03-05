@@ -12,15 +12,17 @@ func Run(initHandler func() (http.Handler, error)) {
 	log.Init()
 	logger := zap.L().Named("Run")
 
+	// todo prometheus
+
 	defer func() {
 		if err := recover(); err != nil {
-			logger.Error("Exception", zap.Any("error", err))
+			logger.Error("recover", zap.Any("error", err))
 		}
 	}()
 
 	h, err := initHandler()
 	if err != nil {
-		logger.Error("InitHandler", zap.Error(err))
+		logger.Error("initHandler", zap.Error(err))
 		return
 	}
 
@@ -34,6 +36,6 @@ func Run(initHandler func() (http.Handler, error)) {
 	err = http.ListenAndServe(":"+port,
 		Recovery(cors.AllowAll().Handler(h)))
 	if err != nil {
-		logger.Error("Listen", zap.Error(err))
+		logger.Error("ListenAndServe", zap.Error(err))
 	}
 }
