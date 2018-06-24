@@ -1,4 +1,4 @@
-package restful
+package rest
 
 import (
 	"encoding/json"
@@ -7,7 +7,7 @@ import (
 
 type NullString struct {
 	Value string `json:"value,omitempty"`
-	Valid bool `json:"-"`
+	Valid bool   `json:"-"`
 }
 
 func (s *NullString) MarshalJSON() ([]byte, error) {
@@ -16,19 +16,19 @@ func (s *NullString) MarshalJSON() ([]byte, error) {
 
 func (s *NullString) UnmarshalJSON(data []byte) error {
 	if data == nil || len(data) == 0 {
-		fmt.Println("UnmarshalJSON 1",data,s.Value,s.Valid)
+		fmt.Println("UnmarshalJSON 1", data, s.Value, s.Valid)
 		return nil
 	}
 
 	err := json.Unmarshal(data, &s.Value)
 	if err != nil {
-		fmt.Println("UnmarshalJSON 3",data,s.Value,s.Valid)
+		fmt.Println("UnmarshalJSON 3", data, s.Value, s.Valid)
 		return err
 	}
 
 	s.Valid = true
 
-	fmt.Println("UnmarshalJSON 2",data,s.Value,s.Valid)
+	fmt.Println("UnmarshalJSON 2", data, s.Value, s.Valid)
 
 	return nil
 }
@@ -37,7 +37,6 @@ type NullBool struct {
 	Value bool
 	Valid bool
 }
-
 
 type NullInt32 struct {
 	Value int32
