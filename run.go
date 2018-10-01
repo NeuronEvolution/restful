@@ -34,7 +34,7 @@ func Run(initHandler func() (http.Handler, error)) {
 	logger.Info("Listen", zap.String("port", port))
 
 	err = http.ListenAndServe(":"+port,
-		Recovery(cors.AllowAll().Handler(h)))
+		Logging(Recovery(cors.AllowAll().Handler(h))))
 	if err != nil {
 		logger.Error("ListenAndServe", zap.Error(err))
 	}
