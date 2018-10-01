@@ -2,7 +2,6 @@ package rest
 
 import (
 	"fmt"
-	"github.com/NeuronFramework/errors"
 	"go.uber.org/zap"
 	"net/http"
 )
@@ -16,9 +15,9 @@ func Recovery(h http.Handler) http.Handler {
 				w.Header().Set("Content-Type", "application/json")
 				w.WriteHeader(http.StatusInternalServerError)
 
-				errorResponse := &errors.Error{
+				errorResponse := &Error{
 					Status:  http.StatusInternalServerError,
-					Code:    errors.ErrUnknown,
+					Code:    ErrUnknown,
 					Message: fmt.Sprint(err),
 				}
 

@@ -1,7 +1,6 @@
 package rest
 
 import (
-	"github.com/NeuronFramework/errors"
 	"go.uber.org/zap"
 	"net/http"
 )
@@ -11,7 +10,7 @@ func ServeError(rw http.ResponseWriter, r *http.Request, err error) {
 
 	rw.Header().Set("Content-Type", "application/json")
 
-	e := errors.Wrap(err)
+	e := Wrap(err)
 
 	zap.L().Named("ServeError").Info("ServeErrorResponse", zap.Error(e))
 
